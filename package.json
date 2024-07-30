@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@react-icons/all-files": "^4.1.0",
     "@remixicon/react": "^4.2.0",
     "@testing-library/jest-dom": "^5.17.0",

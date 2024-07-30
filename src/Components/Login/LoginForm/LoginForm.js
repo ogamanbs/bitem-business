@@ -1,7 +1,7 @@
 'use client'
 import React,{useState, useRef} from 'react'
 
-export default function LoginForm() {
+export default function LoginForm({setForm}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const formRef = useRef(null);
@@ -14,6 +14,10 @@ export default function LoginForm() {
         }
         console.log(admin);
         formRef.current.reset();
+    }
+
+    const handleClick = () => {
+        setForm("create");
     }
 
     return (
@@ -32,12 +36,13 @@ export default function LoginForm() {
                 onChange={e=>setPassword(e.target.value)}
                 className="wfull border border-zinc-600 rounded-full py-2 px-5 outline-none bg-transparent"
             />
-            <div className="mt-3">
+            <div className="flex items-center gap-4 mt-3">
                 <input
                     type="submit"
-                    value="submit"
+                    value="login"
                     className="rounded-full py-2 px-5 outline-none bg-blue-500 text-white cursor-pointer"
                 />
+                <button onClick={handleClick} className="text-blue-500">Create Account</button>
             </div>
         </form>
     )

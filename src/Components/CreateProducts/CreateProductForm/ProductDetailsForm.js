@@ -4,11 +4,9 @@ export default function ProductDetailsForm({setImage, setName, setPrice, setDisc
     const handleImageOnChange = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
-        // const imageType = file.name.split('.');
         reader.onloadend = () => {
             const image = reader.result.toString('base64');
             setImage(image);
-        // setImage(image);
         };
         reader.readAsDataURL(file);
     }
