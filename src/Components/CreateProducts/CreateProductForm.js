@@ -32,19 +32,22 @@ export default function CreateProductForm() {
 
     const handleSubmitForm = async (e) => {
         e.preventDefault();
-        console.log(image);
-        const product = {
-            image,
-            name,
-            price,
-            discount,
-            bgcolor,
-            panelColor,
-            textColor
+        if(image !== "" && name !== "" && !name.includes(" ") && !name.includes("<") && !name.includes(">") && price !== "" && !price.includes(" ") && !price.includes("<") && !price.includes(">") && discount !== "" && !discount.includes(" ") && !discount.includes("<") && !discount.includes(">") && bgcolor !== "" && bgcolor.includes(" ") && bgcolor.includes("<") && bgcolor.includes(">") && panelColor !== "" && !panelColor.includes(" ") && !panelColor.includes("<") && !panelColor.includes(">") && textColor !== "" && !textColor.includes(" ") && !textColor.includes("<") && !textColor.includes(">")) {
+            const product = {
+                image,
+                name,
+                price,
+                discount,
+                bgcolor,
+                panelColor,
+                textColor
+            }
+            // console.log(product);
+            const data = await uploadInfo(product);
+            console.log(data);
+        } else {
+            formRef.current.reset();
         }
-        // console.log(product);
-        const data = await uploadInfo(product);
-        console.log(data);
         setName("");
         setImage(null);
         setPrice("");
@@ -52,7 +55,6 @@ export default function CreateProductForm() {
         setBgcolor("");
         setPanelColor("");
         setTextColor("");
-        formRef.current.reset();
     }
 
     return (

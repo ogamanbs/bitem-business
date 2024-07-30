@@ -2,9 +2,9 @@
 import React,{useState, useRef} from 'react'
 
 const createOwner = async (owner) => {
-    const response = await fetch('https://bitem-server.vercel.app/create', {
+    const response = await fetch('https://bitem-server.vercel.app/owner/create', {
         method:"POST",
-        headers: {'Context-Type':'application/json'},
+        headers: {'Content-Type':'application/json'},
         body: JSON.stringify(owner)
     });
     if(!response.ok) {
@@ -24,15 +24,23 @@ export default function CreateAccountForm({setForm}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const owner = {
-            name,
-            image,
-            email,
-            password
+        if(image!=="" && name !== "" && !name.includes("<") && !name.includes(">") && email !== "" && !email.includes(" ") && !email.includes("<") && !email.includes(">") && password !== "" && !password.includes(" ") && !password.includes("<") && !password.includes(">")){
+            const owner = {
+                name,
+                image,
+                email,
+                password
+            }
+            const data = await createOwner(owner);
+            console.log(data.message);
+            formRef.current.reset();
+        } else {
+            formRef.current.reset();
         }
-        const data = await createOwner(owner);
-        console.log(data.message);
-        formRef.current.reset();
+        setName("");
+        setImage("");
+        setEmail("");
+        setPassword("");
     }
 
     const handleClick = () => {

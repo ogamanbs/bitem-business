@@ -6,7 +6,7 @@ import {Navigate} from 'react-router-dom';
 const Home = () => {
   const [cookies] = useCookies(['token']);
   if(!cookies.token){
-    return <Navigate to="/login" />
+    return <Navigate to="/sign" />
   }
   return (
     <div className="w-full min-h-screen flex items-center justify-center">

@@ -2,7 +2,7 @@
 import React,{useState, useRef} from 'react'
 
 const login = async (owner) => {
-    const response = await fetch('https://bitem-server.vercel.app/login', {
+    const response = await fetch('https://bitem-server.vercel.app/owner/login', {
         method:"POST",
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify(owner)
@@ -22,13 +22,19 @@ export default function LoginForm({setForm}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const owner = {
-            email,
-            password
+        if(email !== "" && !email.includes(" ") && password !== "" && !password.includes(" ") && !email.includes("<") && !email.includes(">") && !password.includes("<") && !password.includes(">")){
+            const owner = {
+                email,
+                password
+            }
+            const data = await login(owner);
+            console.log(data.message);
+            formRef.current.reset();
+        } else {
+            formRef.current.reset();
         }
-        const data = await login(owner);
-        console.log(data.message);
-        formRef.current.reset();
+        setEmail("");
+        setPassword("");
     }
 
     const handleClick = () => {
