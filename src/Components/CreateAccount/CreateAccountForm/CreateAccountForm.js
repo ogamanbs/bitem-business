@@ -2,9 +2,10 @@
 import React,{useState, useRef} from 'react'
 
 const createOwner = async (owner) => {
-    const response = await fetch('https://bitem-server.vercel.app', {
+    const response = await fetch('https://bitem-server.vercel.app/create', {
         method:"POST",
-        headers: {'Context-Type':'application/json'}
+        headers: {'Context-Type':'application/json'},
+        body: JSON.stringify(owner)
     });
     if(!response.ok) {
         return { message: "error creating owner" };
@@ -29,9 +30,8 @@ export default function CreateAccountForm({setForm}) {
             email,
             password
         }
-        console.log(owner);
-        const res = await createOwner(owner);
-        console.log(res.message);
+        const data = await createOwner(owner);
+        console.log(data.message);
         formRef.current.reset();
     }
 

@@ -1,18 +1,33 @@
 'use client'
 import React,{useState, useRef} from 'react'
 
+const login = async (owner) => {
+    const response = await fetch('https://bitem-server.vercel.app/login', {
+        method:"POST",
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(owner)
+    });
+    if(!response.ok) {
+        return {message: "owner not found"}
+    } else {
+        const data = await response.json();
+        return data;
+    }
+}
+
 export default function LoginForm({setForm}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const formRef = useRef(null);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const admin = {
+        const owner = {
             email,
             password
         }
-        console.log(admin);
+        const data = await login(owner);
+        console.log(data.message);
         formRef.current.reset();
     }
 
