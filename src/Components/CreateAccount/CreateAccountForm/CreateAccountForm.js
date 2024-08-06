@@ -45,7 +45,8 @@ export default function CreateAccountForm({setForm}) {
         setPassword("");
     }
 
-    const handleClick = () => {
+    const handleClick = (e) => {
+        e.preventDefault();
         setForm("login");
     }
 

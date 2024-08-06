@@ -1,4 +1,5 @@
 'use client'
+import e from 'express';
 import React,{useState, useRef} from 'react'
 
 const login = async (owner) => {
@@ -39,7 +40,8 @@ export default function LoginForm({setForm}) {
         setPassword("");
     }
 
-    const handleClick = () => {
+    const handleClick = (e) => {
+        e.preventDefault();
         setForm("create");
     }
 
