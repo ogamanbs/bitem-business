@@ -28,7 +28,7 @@ export default function HomePage() {
   }, [cookies.token, cookies.menue, navigate, setCookie, location.pathname]);
 
   return (
-    <div className='w-full h-[calc(100vh-72.9px)]'>
+    <div className='w-full h-auto'>
         <div className="h-[7vh] flex items-center justify-between px-10 md:justify-between ">
             <OwnerHead setMenue={setMenue} />
             <Logout />

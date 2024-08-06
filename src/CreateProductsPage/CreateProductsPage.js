@@ -44,7 +44,7 @@ export default function CreateProductsPage() {
   }
 
   return (
-    <div className='relative w-full h-[calc(100vh-72.9px)]'>
+    <div className='relative w-full h-auto'>
         <div className={`absolute ${vis} w-full min-h-screen bg-zinc-200/20 backdrop-blur-md`}>
             <PreLoader load={load} setLoad={setLoad} />
         </div>

@@ -29,7 +29,7 @@ export default function AllProductsPage() {
 
 
   return (
-    <div className='w-full h-[calc(100vh-72.9px)]'>
+    <div className='w-full h-auto'>
         <div className="h-[7vh] w-full flex items-center justify-between px-10 md:justify-between">
             <OwnerHead setMenue={setMenue} />
             <Logout />
