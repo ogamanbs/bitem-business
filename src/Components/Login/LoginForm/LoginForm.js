@@ -2,7 +2,8 @@
 import React,{useState, useRef} from 'react'
 
 const login = async (owner) => {
-    const response = await fetch('https://bitem-server.vercel.app/owner/login', {
+    const response = await fetch('https://business-server.vercel.app/owner/login', {
+    // const response = await fetch('https://localhost:8000/owner/login', {
         method:"POST",
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify(owner)
@@ -27,6 +28,7 @@ export default function LoginForm({setForm}) {
                 email,
                 password
             }
+            console.log(owner);
             const data = await login(owner);
             console.log(data.message);
             formRef.current.reset();
