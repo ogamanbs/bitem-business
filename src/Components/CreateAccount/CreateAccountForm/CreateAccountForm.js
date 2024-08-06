@@ -16,7 +16,7 @@ const createOwner = async (owner) => {
     }
 }
 
-export default function CreateAccountForm({setForm}) {
+export default function CreateAccountForm({setForm, setLoad, setMessages, messages}) {
     const [name, setName] = useState("");
     const [image, setImage] = useState("");
     const [email, setEmail] = useState("");
@@ -25,6 +25,7 @@ export default function CreateAccountForm({setForm}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoad(200);
         if(image!=="" && name !== "" && !name.includes("<") && !name.includes(">") && email !== "" && !email.includes(" ") && !email.includes("<") && !email.includes(">") && password !== "" && !password.includes(" ") && !password.includes("<") && !password.includes(">")){
             const owner = {
                 name,
@@ -32,14 +33,15 @@ export default function CreateAccountForm({setForm}) {
                 email,
                 password
             }
-            // console.log(owner);
             const data = await createOwner(owner);
-            console.log(data.message);
             formRef.current.reset();
+            setLoad(100);
+            setMessages([...messages, data.message]);
             setForm('login');
         } else {
             formRef.current.reset();
         }
+        setLoad(100);
         setName("");
         setImage("");
         setEmail("");

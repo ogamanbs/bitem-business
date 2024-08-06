@@ -22,7 +22,7 @@ const login = async (owner) => {
     }
 }
 
-export default function LoginForm({setForm}) {
+export default function LoginForm({setForm, setLoad, messages, setMessages}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const formRef = useRef(null);
@@ -31,20 +31,24 @@ export default function LoginForm({setForm}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoad(200);
         if(email !== "" && !email.includes(" ") && password !== "" && !password.includes(" ") && !email.includes("<") && !email.includes(">") && !password.includes("<") && !password.includes(">")){
             const owner = {
                 email,
                 password
             }
-            // console.log(owner);
             const data = await login(owner);
-            console.log(data.message);
-            setCookie('token', email, {path: '/', expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)});
-            navigate('/create-products');
             formRef.current.reset();
+            setLoad(100);
+            setMessages([...messages, data.message]);
+            if(data.message === 'successfully verified owner'){
+                setCookie('token', email, {path: '/', expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)});
+                navigate('/');
+            }
         } else {
             formRef.current.reset();
         }
+        setLoad(100);
         setEmail("");
         setPassword("");
     }

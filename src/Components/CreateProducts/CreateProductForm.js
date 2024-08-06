@@ -10,15 +10,18 @@ const uploadInfo = async (product) => {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(product)
         });
-        const data = await response.json();
-        return data.message;
+        if(!response.ok) {
+            return {message: "error creating product"};
+        } else {
+            const data = await response.json();
+            return data;
+        }
     } catch (err) {
-        console.error(err);
+        return {message: 'error creating product'};
     }
-
 }
 
-export default function CreateProductForm() {
+export default function CreateProductForm({messages, setMessages, setLoad}) {
     const formRef = useRef();
 
     const [image, setImage] = useState(null);
@@ -32,6 +35,7 @@ export default function CreateProductForm() {
 
     const handleSubmitForm = async (e) => {
         e.preventDefault();
+        setLoad(200);
         if(image !== "" && name !== "" && !name.includes(" ") && !name.includes("<") && !name.includes(">") && price !== "" && !price.includes(" ") && !price.includes("<") && !price.includes(">") && discount !== "" && !discount.includes(" ") && !discount.includes("<") && !discount.includes(">") && bgcolor !== "" && bgcolor.includes(" ") && bgcolor.includes("<") && bgcolor.includes(">") && panelColor !== "" && !panelColor.includes(" ") && !panelColor.includes("<") && !panelColor.includes(">") && textColor !== "" && !textColor.includes(" ") && !textColor.includes("<") && !textColor.includes(">")) {
             const product = {
                 image,
@@ -44,10 +48,13 @@ export default function CreateProductForm() {
             }
             // console.log(product);
             const data = await uploadInfo(product);
-            console.log(data);
+            formRef.current.reset();
+            setLoad(100);
+            setMessages([...messages, data.message]);
         } else {
             formRef.current.reset();
         }
+        setLoad(100);
         setName("");
         setImage(null);
         setPrice("");

@@ -5,7 +5,7 @@ import reportWebVitals from './reportWebVitals';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HomePage from './HomePage/HomePage';
-import CreateProducts from './CreateProductsPage/CreateProductsPage';
+import CreateProductsPage from './CreateProductsPage/CreateProductsPage';
 import Sign from './SignPage/Sign';
 import AllProductsPage from './AllProductsPage/AllProductsPage';
 
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     element: <HomePage />
   }, {
     path: '/create-products',
-    element: <CreateProducts />
+    element: <CreateProductsPage />
   }, {
     path: '/sign',
     element: <Sign />
