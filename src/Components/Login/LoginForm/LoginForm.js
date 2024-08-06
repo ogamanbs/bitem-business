@@ -2,17 +2,21 @@
 import React,{useState, useRef} from 'react'
 
 const login = async (owner) => {
-    const response = await fetch('https://business-server.vercel.app/owner/login', {
-    // const response = await fetch('https://localhost:8000/owner/login', {
-        method:"POST",
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(owner)
-    });
-    if(!response.ok) {
-        return {message: "owner not found"}
-    } else {
-        const data = await response.json();
-        return data;
+    try {
+        const response = await fetch('https://business-server.vercel.app/owner/login', {
+        // const response = await fetch('https://localhost:8000/owner/login', {
+            method:"POST",
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(owner)
+        });
+        if(!response.ok) {
+            return {message: "owner not found"}
+        } else {
+            const data = await response.json();
+            return data;
+        }
+    } catch(err) {
+        console.log(err);
     }
 }
 
