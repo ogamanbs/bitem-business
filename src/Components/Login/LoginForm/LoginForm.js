@@ -1,5 +1,7 @@
 'use client'
-import React,{useState, useRef} from 'react'
+import React,{useState, useRef} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 const login = async (owner) => {
     try {
@@ -24,6 +26,8 @@ export default function LoginForm({setForm}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const formRef = useRef(null);
+    const navigate = useNavigate();
+    const [, setCookie] = useCookies(['token']);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -32,9 +36,11 @@ export default function LoginForm({setForm}) {
                 email,
                 password
             }
-            console.log(owner);
+            // console.log(owner);
             const data = await login(owner);
             console.log(data.message);
+            setCookie('token', email, {path: '/', expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)});
+            navigate('/create-products');
             formRef.current.reset();
         } else {
             formRef.current.reset();

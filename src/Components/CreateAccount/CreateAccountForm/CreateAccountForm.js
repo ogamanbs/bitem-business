@@ -32,10 +32,11 @@ export default function CreateAccountForm({setForm}) {
                 email,
                 password
             }
-            console.log(owner);
+            // console.log(owner);
             const data = await createOwner(owner);
             console.log(data.message);
             formRef.current.reset();
+            setForm('login');
         } else {
             formRef.current.reset();
         }

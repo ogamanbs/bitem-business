@@ -4,20 +4,24 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Home from './Home/Home';
-import CreateProducts from './CreateProducts/CreateProducts';
+import HomePage from './HomePage/HomePage';
+import CreateProducts from './CreateProductsPage/CreateProductsPage';
 import Sign from './SignPage/Sign';
+import AllProductsPage from './AllProductsPage/AllProductsPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />
+    element: <HomePage />
   }, {
     path: '/create-products',
     element: <CreateProducts />
   }, {
     path: '/sign',
     element: <Sign />
+  }, {
+    path: '/all-products',
+    element: <AllProductsPage />
   }
 ]);
 

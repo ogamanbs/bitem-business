@@ -58,7 +58,7 @@ export default function CreateProductForm() {
     }
 
     return (
-        <div className="w-full h-full flex flex-col overflow-auto px-10 md:py-10 md:px-20">
+        <div className="w-full md:w-4/5 h-full flex flex-col overflow-auto px-10 md:py-10 md:px-20">
             <h1 className="text-xl">Create New Product</h1>
             <form ref={formRef} onSubmit={handleSubmitForm} className="flex flex-col gap-10 md:gap-10 mt-5 md:mt-10" encType="multipartform/form-data">
                 <ProductDetailsForm setImage={setImage} setName={setName} setPrice={setPrice} setDiscount={setDiscount} />
