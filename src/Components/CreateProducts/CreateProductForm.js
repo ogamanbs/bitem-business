@@ -1,11 +1,12 @@
 'use client'
-import React,{useState, useRef} from 'react'
+import React,{useState, useRef, useEffect} from 'react'
 import ProductDetailsForm from '../CreateProducts/CreateProductForm/ProductDetailsForm';
 import PanelDetailForm from '../CreateProducts/CreateProductForm/PanelDetailForm';
+import { useCookies } from 'react-cookie';
 
 const uploadInfo = async (product) => {
     try {
-        const response = await fetch('https://bitem-server.vercel.app/products/create', {
+        const response = await fetch('https://business-server.vercel.app/products/create', {
             method:"POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(product)
@@ -28,15 +29,21 @@ export default function CreateProductForm({messages, setMessages, setLoad}) {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [discount, setDiscount] = useState("");
+    const [email, setEmail] = useState("");
+    const [cookies] = useCookies(['token']);
 
     const [bgcolor, setBgcolor] = useState("");
     const [panelColor, setPanelColor] = useState("");
     const [textColor, setTextColor] = useState("");
 
+    useEffect(() => {
+        setEmail(cookies.token);
+    }, [setEmail, cookies]);
+
     const handleSubmitForm = async (e) => {
         e.preventDefault();
         setLoad(200);
-        if(image !== "" && name !== "" && !name.includes(" ") && !name.includes("<") && !name.includes(">") && price !== "" && !price.includes(" ") && !price.includes("<") && !price.includes(">") && discount !== "" && !discount.includes(" ") && !discount.includes("<") && !discount.includes(">") && bgcolor !== "" && bgcolor.includes(" ") && bgcolor.includes("<") && bgcolor.includes(">") && panelColor !== "" && !panelColor.includes(" ") && !panelColor.includes("<") && !panelColor.includes(">") && textColor !== "" && !textColor.includes(" ") && !textColor.includes("<") && !textColor.includes(">")) {
+        if(image !== "" && name !== "" &&  price !== "" && discount !== "" && bgcolor !== "" && panelColor !== "" && textColor !== "") {
             const product = {
                 image,
                 name,
@@ -44,9 +51,10 @@ export default function CreateProductForm({messages, setMessages, setLoad}) {
                 discount,
                 bgcolor,
                 panelColor,
-                textColor
+                textColor,
+                email
             }
-            // console.log(product);
+            console.log(product);
             const data = await uploadInfo(product);
             formRef.current.reset();
             setLoad(100);
