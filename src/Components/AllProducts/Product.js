@@ -11,11 +11,11 @@ export default function Product({product}) {
                 <div className="flex justify-between gap-3 font-medium">
                     <div className="w-auto">
                         <h1 className="">{product.name}</h1>
-                        <h2 className="">₹ {product.price}</h2>
+                        <h2 className="">₹ {product.price - product.discount}</h2>
                     </div>
                     <div className="w-auto flex items-center">
                         <div className="rounded-full w-full px-2 py-1 bg-white cursor-pointer border border-zinc-400 text-black">
-                           <RiPencilLine size={17} />
+                            <RiPencilLine size={17} />
                         </div>
                     </div>
                 </div>

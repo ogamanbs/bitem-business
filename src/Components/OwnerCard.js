@@ -19,7 +19,7 @@ export default function OwnerCard({owner, products}) {
           </div>
           <div className="flex gap-2">
             <abbr className="cursor-pointer" title="Products Delivered"><RiTruckLine /></abbr>
-            <h1 className=""> : {products.length}</h1>
+            <h1 className=""> : 0</h1>
           </div>
         </div>
       </div>
