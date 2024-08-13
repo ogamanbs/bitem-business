@@ -35,7 +35,7 @@ export default function HomePage() {
         </div>
         <div className="h-full md:h-[93vh] flex flex-col md:flex-row w-full">
             <Menu menue={menue} setMenue={setMenue} />
-            <Home setMenue={setMenue} />
+            <Home setMenue={setMenue} email={cookies.token}/>
         </div>
     </div>
   )

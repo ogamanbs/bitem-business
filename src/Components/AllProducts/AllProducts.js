@@ -2,11 +2,16 @@
 import React, {useState, useEffect} from 'react';
 import Product from './Product';
 import ProductSmall from './ProductSmall';
+import {useCookies} from 'react-cookie';
 
 
-const getProducts = async () => {
+const getProducts = async (email) => {
   try {
-    const response = await fetch('https://business-server.vercel.app/products/all');
+    const response = await fetch('https://business-server.vercel.app/products/all',{
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email})
+    });
     if(!response.ok) {
       return {products: [], message: "error fetching products"};
     } else {
@@ -21,15 +26,16 @@ const getProducts = async () => {
 export default function AllProducts() {
   const [products, setProducts] = useState([]);
   const [message, setMessage] = useState("");
+  const [cookies] = useCookies(['token']);
 
   useEffect(() => {
     const call = async () => {
-      const data = await getProducts();
+      const data = await getProducts(cookies.token);
       setProducts(data.products);
       setMessage(data.message);
     }
     call();
-  }, [products]);
+  }, [products, cookies]);
 
   return (
       <div className="w-full md:w-4/5 h-full flex flex-wrap gap-3 md:gap-5 px-3 justify-center md:justify-start md:px-10 md:py-5 overflow-scroll">
