@@ -2,6 +2,7 @@
 import React,{useState, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import {RiEye2Line, RiEyeCloseLine } from '@remixicon/react';
 
 const login = async (owner) => {
     try {
@@ -23,6 +24,7 @@ const login = async (owner) => {
 }
 
 export default function LoginForm({setForm, setLoad, messages, setMessages}) {
+    const [show, setShow] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const formRef = useRef(null);
@@ -58,6 +60,10 @@ export default function LoginForm({setForm, setLoad, messages, setMessages}) {
         setForm("create");
     }
 
+    const handleShow = () => {
+        setShow(!show);
+    }
+
     return (
         <form ref={formRef} onSubmit={handleSubmit} className="h-auto w-full flex flex-col gap-2 md:px-10">
             <input
@@ -67,13 +73,18 @@ export default function LoginForm({setForm, setLoad, messages, setMessages}) {
                 onChange={e=>setEmail(e.target.value)}
                 className="w-full border border-zinc-600 rounded-full py-2 px-5 outline-none bg-transparent"
             />
-            <input
-                type="password"
-                name="password"
-                placeholder="password"
-                onChange={e=>setPassword(e.target.value)}
-                className="wfull border border-zinc-600 rounded-full py-2 px-5 outline-none bg-transparent"
-            />
+            <div className="w-full flex items-center border border-zinc-700 rounded-full cursor-pointer">
+                <input
+                    type={ show ? 'text' : "password"}
+                    name="password"
+                    placeholder="password"
+                    onChange={e=>setPassword(e.target.value)}
+                    className="w-full rounded-full py-2 px-5 outline-none bg-transparent"
+                />
+                <div onClick={handleShow} className="px-3 py-2">
+                    {show ? <RiEye2Line size={20} /> : <RiEyeCloseLine size={20} />}
+                </div>
+            </div>
             <div className="flex items-center gap-4 mt-3">
                 <input
                     type="submit"
