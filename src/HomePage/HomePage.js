@@ -1,42 +1,37 @@
-import React,{useState, useEffect} from 'react';
+import React,{useEffect} from 'react';
 import OwnerHead from '../Components/CreateProducts/OwnerHead';
 import Menu from '../Components/CreateProducts/Menu';
-import { useCookies } from 'react-cookie';
 import Home from '../Components/Home/Home';
-import {useNavigate, useLocation} from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import {useNavigate} from 'react-router-dom';
 import Logout from '../Components/Logout';
+import MenuSmall from '../Components/CreateProducts/MenuSmall';
 
-export default function HomePage() {
-  const [cookies, setCookie] = useCookies(['token', 'menue']);
-  const [menue, setMenue] = useState(0);
+export default function HomePage({owner, products, setProducts, setOwner}) {
+  const [cookies] = useCookies(['token']);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  useEffect(() => {
+  useEffect(()=>{
     if(!cookies.token) {
       navigate('/sign');
-    } else if(location.pathname === '/') {
-      setCookie('menue', 0, {path: '/', expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)});
-      setMenue(0);
-    } else if(cookies.menue === 0 || cookies.menue === undefined) {
-      setMenue(0);
-    } else if(cookies.menue === 1) {
-      navigate('/all-products');
-    } else if(cookies.menue === 2) {
-      navigate('/create-products');
     }
-  }, [cookies.token, cookies.menue, navigate, setCookie, location.pathname]);
+  }, [cookies, navigate]);
 
   return (
     <div className='w-full h-auto'>
-        <div className="h-[7vh] flex items-center justify-between px-10 md:justify-between ">
-            <OwnerHead setMenue={setMenue} />
-            <Logout />
+        <div className="h-[7vh] flex items-center justify-between px-10 md:justify-between border-b border-zinc-200 md:border-0">
+            <OwnerHead />
+            <Logout setProducts={setProducts} setOwner={setOwner} />
         </div>
         <div className="h-full md:h-[93vh] flex flex-col md:flex-row w-full">
-            <Menu menue={menue} setMenue={setMenue} />
-            <Home setMenue={setMenue} email={cookies.token}/>
+            <div className="hidden md:block w-auto">
+              <Menu />
+            </div>
+            <div className="w-auto block md:hidden">
+              <MenuSmall owner={owner} />
+            </div>
+            <Home owner={owner} products={products} />
         </div>
     </div>
-  )
+  );
 }

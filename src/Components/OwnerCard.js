@@ -3,8 +3,8 @@ import React from 'react'
 
 export default function OwnerCard({owner, products}) {
   return (
-    <div className="w-auto h-auto flex flex-col md:flex-row gap-4 items-center">
-      <div className="w-48 h-auto rounded-full overflow-hidden">
+    <div className="w-auto h-full flex flex-col md:flex-row gap-4 items-center justify-center md:items-start md:py-10">
+      <div className="w-48 h-auto rounded-[20px] overflow-hidden">
           <img className="" src={owner.image} alt={owner.name} />
       </div>
       <div className="w-full h-auto flex flex-col gap-2 items-center">

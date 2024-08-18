@@ -1,15 +1,13 @@
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
 import {useCookies} from 'react-cookie';
 import { RiLogoutBoxRLine } from '@remixicon/react';
 
-export default function Logout() {
-    const [, , removeCookie] = useCookies(['token', 'menue']);
-    const navigate = useNavigate();
+export default function Logout({setOwner, setProducts}) {
+    const [, , removeCookie] = useCookies(['token']);
     const handleClick = () => {
-        removeCookie('token');
-        removeCookie('menue');
-        navigate('/');
+        setProducts([]);
+        setOwner({});
+        removeCookie('token', {path:'/'});
     }
     return (
         <button onClick={handleClick} className="">

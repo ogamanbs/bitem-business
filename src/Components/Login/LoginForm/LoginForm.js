@@ -7,23 +7,23 @@ import {RiEye2Line, RiEyeCloseLine } from '@remixicon/react';
 const login = async (owner) => {
     try {
         const response = await fetch('https://business-server.vercel.app/owner/login', {
-        // const response = await fetch('https://localhost:8000/owner/login', {
             method:"POST",
-            headers: {'Content-Type':'application/json'},
+            headers: { 'Content-Type':'application/json' },
             body: JSON.stringify(owner)
         });
-        if(!response.ok) {
-            return {message: "owner not found"}
-        } else {
+        if(response.ok) {
             const data = await response.json();
             return data;
+        } else {
+            return { message: "owner not found" };
         }
     } catch(err) {
         console.log(err);
+        return { message: "unable to fetch owner" };
     }
 }
 
-export default function LoginForm({setForm, setLoad, messages, setMessages}) {
+export default function LoginForm({setForm, setLoad, messages, setMessages, setOwner, setProducts}) {
     const [show, setShow] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -44,15 +44,18 @@ export default function LoginForm({setForm, setLoad, messages, setMessages}) {
             setLoad(100);
             setMessages([...messages, data.message]);
             if(data.message === 'successfully verified owner'){
-                setCookie('token', email, {path: '/', expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)});
+                setCookie('token', data.owner._id, {path: '/', expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)});
+                setProducts(data.owner.products);
+                setOwner(data.owner);
                 navigate('/');
             }
         } else {
             formRef.current.reset();
+            setLoad(100);
+            setMessages([...messages, "empty fields not allowed"]);
+            setEmail("");
+            setPassword("");
         }
-        setLoad(100);
-        setEmail("");
-        setPassword("");
     }
 
     const handleClick = (e) => {
@@ -70,6 +73,7 @@ export default function LoginForm({setForm, setLoad, messages, setMessages}) {
                 type="email"
                 name="email"
                 placeholder="email"
+                autoComplete="off"
                 onChange={e=>setEmail(e.target.value)}
                 className="w-full border border-zinc-600 rounded-full py-2 px-5 outline-none bg-transparent"
             />
@@ -78,6 +82,7 @@ export default function LoginForm({setForm, setLoad, messages, setMessages}) {
                     type={ show ? 'text' : "password"}
                     name="password"
                     placeholder="password"
+                    autoComplete="off"
                     onChange={e=>setPassword(e.target.value)}
                     className="w-full rounded-full py-2 px-5 outline-none bg-transparent"
                 />

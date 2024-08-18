@@ -11,8 +11,9 @@ const uploadInfo = async (product) => {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(product)
         });
-        if(!response.ok) {
-            return {message: "error creating product"};
+        if(response.ok) {
+            const data = await response.json();
+            return data;
         } else {
             const data = await response.json();
             return data;
@@ -29,7 +30,7 @@ export default function CreateProductForm({messages, setMessages, setLoad}) {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [discount, setDiscount] = useState("");
-    const [email, setEmail] = useState("");
+    const [id, setId] = useState("");
     const [cookies] = useCookies(['token']);
 
     const [bgcolor, setBgcolor] = useState("");
@@ -37,8 +38,8 @@ export default function CreateProductForm({messages, setMessages, setLoad}) {
     const [textColor, setTextColor] = useState("");
 
     useEffect(() => {
-        setEmail(cookies.token);
-    }, [setEmail, cookies]);
+        setId(cookies.token);
+    }, [setId, cookies]);
 
     const handleSubmitForm = async (e) => {
         e.preventDefault();
@@ -52,7 +53,7 @@ export default function CreateProductForm({messages, setMessages, setLoad}) {
                 bgcolor,
                 panelColor,
                 textColor,
-                email
+                id
             }
             console.log(product);
             const data = await uploadInfo(product);
@@ -61,19 +62,20 @@ export default function CreateProductForm({messages, setMessages, setLoad}) {
             setMessages([...messages, data.message]);
         } else {
             formRef.current.reset();
+            setLoad(100);
+            setMessages([...messages, "empty fields not allowed"]);
+            setName("");
+            setImage(null);
+            setPrice("");
+            setDiscount("");
+            setBgcolor("");
+            setPanelColor("");
+            setTextColor("");
         }
-        setLoad(100);
-        setName("");
-        setImage(null);
-        setPrice("");
-        setDiscount("");
-        setBgcolor("");
-        setPanelColor("");
-        setTextColor("");
     }
 
     return (
-        <div className="w-full md:w-4/5 h-full flex flex-col overflow-auto px-10 md:py-10 md:px-20">
+        <div className="w-full md:w-4/5 h-full flex flex-col overflow-auto px-10 md:py-10 md:px-20 mt-5">
             <h1 className="text-xl">Create New Product</h1>
             <form ref={formRef} onSubmit={handleSubmitForm} className="flex flex-col gap-10 md:gap-10 mt-5 md:mt-10" encType="multipartform/form-data">
                 <ProductDetailsForm setImage={setImage} setName={setName} setPrice={setPrice} setDiscount={setDiscount} />
