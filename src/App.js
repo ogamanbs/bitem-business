@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate} from 'react-router-dom';
 import HomePage from './HomePage/HomePage';
 import CreateProductsPage from './CreateProductsPage/CreateProductsPage';
 import Sign from './SignPage/Sign';
@@ -8,8 +8,7 @@ import { useCookies } from 'react-cookie';
 
 const getOwner = async (id) => {
     try {
-        const response = await fetch('https://business-server.vercel.app/owner/get-owner', {
-        // const response = await fetch('http://localhost:8000/owner/get-owner', {
+        const response = await fetch('https://business-server.bitem.in/owner/get-owner', {
             method: "POST",
             headers: { 'Content-Type' : 'application/json'},
             body: JSON.stringify({id})
@@ -26,19 +25,43 @@ const getOwner = async (id) => {
 }
 
 export default function App() {
-    const [owner, setOwner] = useState({});
-    const [products, setProducts] = useState([]);
+    const [owner, setOwner] = useState(() => {
+        const savedOwner = localStorage.getItem('owner');
+        return savedOwner === null ? null : JSON.parse(savedOwner);
+    });
+    const [products, setProducts] = useState(() => {
+        return owner !== null ? owner.products : [];
+    });
     const [cookies] = useCookies(['token']);
 
     useEffect(()=>{
         const callOwnerAPI = async () => {
             const data = await getOwner(cookies.token);
-            setOwner(data.owner);
-            setProducts(data.owner.products);
+            let cachedOwner = localStorage.getItem('owner');
+            cachedOwner = JSON.parse(cachedOwner);
+            if(cookies.token && cachedOwner && (data.owner.products.length !== cachedOwner.products.length)) {
+                setOwner(data.owner);
+                setProducts(data.owner.products);
+                localStorage.setItem('owner', JSON.stringify(data.owner));
+            } else if(cookies.token && !owner) {
+                if(cachedOwner) {
+                    setOwner(cachedOwner);
+                    setProducts(cachedOwner.products);
+                } else {
+                    setOwner(data.owner);
+                    setProducts(data.owner.products);
+                    localStorage.setItem('owner', JSON.stringify(data.owner));
+                }
+            } else if(!cookies.token){
+                setOwner(null);
+                setProducts([]);
+                localStorage.setItem('owner', JSON.stringify(null));
+            }
         }
         if(cookies.token) {
             callOwnerAPI();
         }
+    // eslint-disable-next-line
     },[cookies]);
 
     return (
@@ -46,21 +69,19 @@ export default function App() {
             <Routes>
                 <Route
                     path={'/'}
-                    element={ <HomePage owner={owner} products={products} setProducts={setProducts} setOwner={setOwner} /> }
+                    element={ cookies.token ? <HomePage owner={owner} products={products} setProducts={setProducts} setOwner={setOwner} /> : <Navigate to={'/sign'} />}
                 />
                 <Route
-                    exact
                     path={'/create-products'}
-                    element={ <CreateProductsPage owner={owner} setProducts={setProducts} setOwner={setOwner} /> }
+                    element={ cookies.token ? <CreateProductsPage owner={owner} setProducts={setProducts} setOwner={setOwner} /> : <Navigate to={'/sign'} />}
                 />
                 <Route
                     path={'/sign'}
                     element={ <Sign setProducts={setProducts} setOwner={setOwner} /> }
                 />
                 <Route
-                    exact
                     path={'/all-products'}
-                    element={ <AllProductsPage owner={owner} products={products} setProducts={setProducts} setOwner={setOwner} /> }
+                    element={ cookies.token ? <AllProductsPage owner={owner} products={products} setProducts={setProducts} setOwner={setOwner} /> : <Navigate to={'/sign'} />}
                 />
             </Routes>
         </div>

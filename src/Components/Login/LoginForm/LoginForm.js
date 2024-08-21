@@ -6,7 +6,7 @@ import {RiEye2Line, RiEyeCloseLine } from '@remixicon/react';
 
 const login = async (owner) => {
     try {
-        const response = await fetch('https://business-server.vercel.app/owner/login', {
+        const response = await fetch('https://business-server.bitem.in/owner/login', {
             method:"POST",
             headers: { 'Content-Type':'application/json' },
             body: JSON.stringify(owner)
@@ -47,6 +47,7 @@ export default function LoginForm({setForm, setLoad, messages, setMessages, setO
                 setCookie('token', data.owner._id, {path: '/', expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)});
                 setProducts(data.owner.products);
                 setOwner(data.owner);
+                localStorage.setItem('owner', JSON.stringify(data.owner));
                 navigate('/');
             }
         } else {

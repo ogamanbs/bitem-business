@@ -9,17 +9,17 @@ export default function ProductSmall({product}) {
                     <img className="w-full h-full object-contain" src={product.image} alt={product.name} />
                 </div>
             </div>
-            <div className='h-full w-full flex justify-between items-center gap-3 font-medium bg-white'>
+            <div className='h-full w-full flex justify-between items-center gap-3 font-medium bg-white'  style={{"backgroundColor":`${product.panelcolor}`}}>
                 <div className="w-auto px-5">
                     <h1 className="text-lg">{product.name}</h1>
-                    <h2 className="text-lime-700 text-xl mt-2">₹ {product.price - product.discount}</h2>
+                    <h2 className="text-lime-700 text-xl mt-2 bg-white rounded-full px-2 py-1">₹ {product.price - product.discount}</h2>
                 </div>
                 <div className="w-auto flex flex-col gap-3 items-center px-5">
-                    <button className="rounded-full w-full px-2 py-1 bg-white cursor-pointer text-blue-500">
-                        <RiPencilLine size={25} />
-                    </button>
-                    <button className="rounded-full w-full px-2 py-1 bg-white cursor-pointer text-red-500">
+                    <button className="rounded-full w-full p-2 bg-white border border-zinc-400 cursor-pointer text-red-500 flex items-center justify-center">
                         <RiDeleteBinLine size={25} />
+                    </button>
+                    <button className="rounded-full w-full p-2 bg-white cursor-pointer border border-zinc-400 text-blue-500">
+                        <RiPencilLine size={25} />
                     </button>
                 </div>
             </div>

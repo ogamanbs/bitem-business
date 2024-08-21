@@ -7,6 +7,7 @@ import Notification from '../Components/Notification';
 import { AnimatePresence } from 'framer-motion';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+import OwnerHead from '../Components/CreateProducts/OwnerHead';
 
 
 export default function Sign({setProducts, setOwner}) {
@@ -45,7 +46,7 @@ export default function Sign({setProducts, setOwner}) {
                 </AnimatePresence>
             </div>
             <div className="px-10 py-5 flex items-center justify-center md:justify-start">
-                <h1 className="text-2xl font-bold text-blue-500">Bitem Business</h1>
+                <OwnerHead />
             </div>
             <div className="h-full md:h-[80vh] w-full px-5 md:px-10 mt-5 flex">
                 <div className="h-full w-full flex flex-col md:flex-row-reverse items-center gap-5 md:gap-10">

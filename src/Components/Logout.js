@@ -8,6 +8,7 @@ export default function Logout({setOwner, setProducts}) {
         setProducts([]);
         setOwner({});
         removeCookie('token', {path:'/'});
+        localStorage.setItem('owner', null);
     }
     return (
         <button onClick={handleClick} className="">
