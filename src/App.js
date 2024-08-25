@@ -6,23 +6,23 @@ import Sign from './SignPage/Sign';
 import AllProductsPage from './AllProductsPage/AllProductsPage';
 import { useCookies } from 'react-cookie';
 
-const getOwner = async (id) => {
-    try {
-        const response = await fetch('https://business-server.bitem.in/owner/get-owner', {
-            method: "POST",
-            headers: { 'Content-Type' : 'application/json'},
-            body: JSON.stringify({id})
-        });
-        if(response.ok) {
-            const data = await response.json();
-            return data;
-        } else {
-            return {owner:{products: []}};
-        }
-    } catch(err) {
-        return {owner:{products: []}};
-    }
-}
+// const getOwner = async (id) => {
+//     try {
+//         const response = await fetch('https://business-server.bitem.in/owner/get-owner', {
+//             method: "POST",
+//             headers: { 'Content-Type' : 'application/json'},
+//             body: JSON.stringify({id})
+//         });
+//         if(response.ok) {
+//             const data = await response.json();
+//             return data;
+//         } else {
+//             return {owner:{products: []}};
+//         }
+//     } catch(err) {
+//         return {owner:{products: []}};
+//     }
+// }
 
 export default function App() {
     const [owner, setOwner] = useState(() => {
@@ -35,28 +35,16 @@ export default function App() {
     const [cookies] = useCookies(['token']);
 
     useEffect(()=>{
-        const callOwnerAPI = async () => {
-            const data = await getOwner(cookies.token);
-            let cachedOwner = localStorage.getItem('owner');
-            cachedOwner = JSON.parse(cachedOwner);
-            if(cookies.token && !owner) {
-                if(cachedOwner) {
-                    setOwner(cachedOwner);
-                    setProducts(cachedOwner.products);
-                    console.log(cachedOwner);
-                } else {
-                    setOwner(data.owner);
-                    setProducts(data.owner.products);
-                    localStorage.setItem('owner', JSON.stringify(data.owner));
-                }
-            } else if(!cookies.token){
-                setOwner(null);
-                setProducts([]);
-                localStorage.setItem('owner', JSON.stringify(null));
-            }
-        }
-        if(cookies.token) {
-            callOwnerAPI();
+        // const callOwnerAPI = async () => {
+            // const data = await getOwner(cookies.token);
+        // }
+        // if(cookies.token) {
+        //     callOwnerAPI();
+        // }else
+        if(!cookies.token){
+            setOwner(null);
+            setProducts([]);
+            localStorage.setItem('owner', JSON.stringify(null));
         }
     // eslint-disable-next-line
     },[cookies]);
@@ -66,11 +54,11 @@ export default function App() {
             <Routes>
                 <Route
                     path={'/'}
-                    element={ cookies.token ? <HomePage owner={owner} products={products} setProducts={setProducts} setOwner={setOwner} /> : <Navigate to={'/sign'} />}
+                    element={ cookies.token ? <HomePage owner={owner} products={products} setProducts={setProducts} setOwner={setOwner} /> : <Navigate to={'/sign'} replace />}
                 />
                 <Route
                     path={'/create-products'}
-                    element={ cookies.token ? <CreateProductsPage owner={owner} setProducts={setProducts} setOwner={setOwner} /> : <Navigate to={'/sign'} />}
+                    element={ cookies.token ? <CreateProductsPage owner={owner} setProducts={setProducts} setOwner={setOwner} /> : <Navigate to={'/sign'} replace />}
                 />
                 <Route
                     path={'/sign'}
@@ -78,7 +66,7 @@ export default function App() {
                 />
                 <Route
                     path={'/all-products'}
-                    element={ cookies.token ? <AllProductsPage owner={owner} products={products} setProducts={setProducts} setOwner={setOwner} /> : <Navigate to={'/sign'} />}
+                    element={ cookies.token ? <AllProductsPage owner={owner} products={products} setProducts={setProducts} setOwner={setOwner} /> : <Navigate to={'/sign'} replace />}
                 />
             </Routes>
         </div>
