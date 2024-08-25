@@ -39,14 +39,11 @@ export default function App() {
             const data = await getOwner(cookies.token);
             let cachedOwner = localStorage.getItem('owner');
             cachedOwner = JSON.parse(cachedOwner);
-            if(cookies.token && cachedOwner && (data.owner.products.length !== cachedOwner.products.length)) {
-                setOwner(data.owner);
-                setProducts(data.owner.products);
-                localStorage.setItem('owner', JSON.stringify(data.owner));
-            } else if(cookies.token && !owner) {
+            if(cookies.token && !owner) {
                 if(cachedOwner) {
                     setOwner(cachedOwner);
                     setProducts(cachedOwner.products);
+                    console.log(cachedOwner);
                 } else {
                     setOwner(data.owner);
                     setProducts(data.owner.products);
