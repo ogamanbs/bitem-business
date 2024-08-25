@@ -6,23 +6,31 @@ import Sign from './SignPage/Sign';
 import AllProductsPage from './AllProductsPage/AllProductsPage';
 import { useCookies } from 'react-cookie';
 
-// const getOwner = async (id) => {
-//     try {
-//         const response = await fetch('https://business-server.bitem.in/owner/get-owner', {
-//             method: "POST",
-//             headers: { 'Content-Type' : 'application/json'},
-//             body: JSON.stringify({id})
-//         });
-//         if(response.ok) {
-//             const data = await response.json();
-//             return data;
-//         } else {
-//             return {owner:{products: []}};
-//         }
-//     } catch(err) {
-//         return {owner:{products: []}};
-//     }
-// }
+const getOwner = async (token) => {
+    // const response = await fetch('https://business-server.bitem.in/owner/get-owner', {
+    const response = await fetch('http://localhost:8000/owner/get-owner', {
+        method: 'POST',
+        headers : {'Content-Type': 'application/json'},
+        body: JSON.stringify({id: token})
+    });
+    if(response.ok) {
+        const data = await response.json();
+        return data;
+    } else {
+        const data = await response.json();
+        return data;
+    }
+}
+
+const isProductAdded = (data) => {
+    let prevData = localStorage.getItem('owner');
+    prevData = JSON.parse(prevData);
+    if(data.products.length !== prevData.products.length) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 export default function App() {
     const [owner, setOwner] = useState(() => {
@@ -35,18 +43,23 @@ export default function App() {
     const [cookies] = useCookies(['token']);
 
     useEffect(()=>{
-        // const callOwnerAPI = async () => {
-            // const data = await getOwner(cookies.token);
-        // }
-        // if(cookies.token) {
-        //     callOwnerAPI();
-        // }else
-        if(!cookies.token){
+        const callAPI = async () => {
+            const data = await getOwner(cookies.token);
+            if(data.owner) {
+                if(isProductAdded(data.owner)) {
+                    setOwner(data.owner);
+                    setProducts(data.owner.products);
+                    localStorage.setItem('owner', JSON.stringify(data.owner));
+                }
+            }
+        }
+        if(cookies.token) {
+            callAPI();
+        } else if(!cookies.token) {
             setOwner(null);
             setProducts([]);
             localStorage.setItem('owner', JSON.stringify(null));
         }
-    // eslint-disable-next-line
     },[cookies]);
 
     return (

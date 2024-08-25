@@ -55,7 +55,6 @@ export default function CreateProductForm({messages, setMessages, setLoad}) {
                 textColor,
                 id
             }
-            console.log(product);
             const data = await uploadInfo(product);
             formRef.current.reset();
             setLoad(100);
