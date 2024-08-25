@@ -7,8 +7,7 @@ import AllProductsPage from './AllProductsPage/AllProductsPage';
 import { useCookies } from 'react-cookie';
 
 const getOwner = async (token) => {
-    // const response = await fetch('https://business-server.bitem.in/owner/get-owner', {
-    const response = await fetch('http://localhost:8000/owner/get-owner', {
+    const response = await fetch('https://business-server.bitem.in/owner/get-owner', {
         method: 'POST',
         headers : {'Content-Type': 'application/json'},
         body: JSON.stringify({id: token})

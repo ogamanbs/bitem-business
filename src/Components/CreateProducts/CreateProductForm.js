@@ -6,7 +6,7 @@ import { useCookies } from 'react-cookie';
 
 const uploadInfo = async (product) => {
     try {
-        const response = await fetch('https://business-server.vercel.app/products/create', {
+        const response = await fetch('https://business-server.bitem.in/products/create', {
             method:"POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(product)
