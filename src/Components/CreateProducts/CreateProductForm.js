@@ -1,8 +1,8 @@
 'use client'
 import React,{useState, useRef, useEffect} from 'react'
 import ProductDetailsForm from '../CreateProducts/CreateProductForm/ProductDetailsForm';
-import PanelDetailForm from '../CreateProducts/CreateProductForm/PanelDetailForm';
 import { useCookies } from 'react-cookie';
+import ProductImageForm from './CreateProductForm/ProductImageForm';
 
 const uploadInfo = async (product) => {
     try {
@@ -26,7 +26,7 @@ const uploadInfo = async (product) => {
 export default function CreateProductForm({messages, setMessages, setLoad}) {
     const formRef = useRef();
 
-    const [image, setImage] = useState(null);
+    const [images, setImages] = useState([]);
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [discount, setDiscount] = useState("");
@@ -44,9 +44,9 @@ export default function CreateProductForm({messages, setMessages, setLoad}) {
     const handleSubmitForm = async (e) => {
         e.preventDefault();
         setLoad(200);
-        if(image !== "" && name !== "" &&  price !== "" && discount !== "" && bgcolor !== "" && panelColor !== "" && textColor !== "") {
+        if(images.length > 0 && name !== "" &&  price !== "" && discount !== "" && bgcolor !== "" && panelColor !== "" && textColor !== "") {
             const product = {
-                image,
+                images,
                 name,
                 price,
                 discount,
@@ -64,7 +64,7 @@ export default function CreateProductForm({messages, setMessages, setLoad}) {
             setLoad(100);
             setMessages([...messages, "empty fields not allowed"]);
             setName("");
-            setImage(null);
+            setImages([]);
             setPrice("");
             setDiscount("");
             setBgcolor("");
@@ -77,8 +77,9 @@ export default function CreateProductForm({messages, setMessages, setLoad}) {
         <div className="w-full md:w-4/5 h-full flex flex-col overflow-auto px-10 md:py-10 md:px-20 mt-5">
             <h1 className="text-xl">Create New Product</h1>
             <form ref={formRef} onSubmit={handleSubmitForm} className="flex flex-col gap-10 md:gap-10 mt-5 md:mt-10" encType="multipartform/form-data">
-                <ProductDetailsForm setImage={setImage} setName={setName} setPrice={setPrice} setDiscount={setDiscount} />
-                <PanelDetailForm setBgcolor={setBgcolor} setPanelColor={setPanelColor} setTextColor={setTextColor} />
+                <h1 className="mb-5">Product Details</h1>
+                <ProductImageForm images={images} setImages={setImages} numberOfImages={4} />
+                <ProductDetailsForm setName={setName} setPrice={setPrice} setDiscount={setDiscount} />
                 <div className="text-sm">
                     <input
                         type="submit"
