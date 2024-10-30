@@ -74,7 +74,7 @@ export default function CreateProductForm({messages, setMessages, setLoad}) {
     }
 
     return (
-        <div className="w-full md:w-4/5 h-full flex flex-col overflow-auto px-10 md:py-10 md:px-20 mt-5">
+        <div className="w-full md:w-4/5 h-full md:h-[93vh] flex flex-col px-10 md:py-10 md:px-20 mt-5 md:mt-0 overflow-scroll">
             <h1 className="text-xl">Create New Product</h1>
             <form ref={formRef} onSubmit={handleSubmitForm} className="flex flex-col gap-10 md:gap-10 mt-5 md:mt-10" encType="multipartform/form-data">
                 <h1 className="mb-5">Product Details</h1>

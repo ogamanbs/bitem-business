@@ -42,7 +42,7 @@ export default function CreateProductsPage({owner, setOwner, setProducts}) {
                 ))}
               </AnimatePresence>
             </div>
-            <div className="h-full w-auto hidden md:block">
+            <div className="h-full w-[20%] hidden md:block">
               <Menu />
             </div>
             <div className="w-full h-full block md:hidden">

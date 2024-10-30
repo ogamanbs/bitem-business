@@ -13,7 +13,7 @@ export default function AllProductsPage({owner, products, setOwner, setProducts}
             <Logout setOwner={setOwner} setProducts={setProducts} />
         </div>
         <div className="h-full md:h-[93vh] flex flex-col md:flex-row w-full">
-            <div className="hidden md:block w-auto">
+            <div className="hidden md:block w-[20%]">
               <Menu />
             </div>
             <div className="w-auto block md:hidden">
