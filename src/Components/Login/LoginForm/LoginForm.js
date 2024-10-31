@@ -7,6 +7,7 @@ import {RiEye2Line, RiEyeCloseLine } from '@remixicon/react';
 const login = async (owner) => {
     try {
         const response = await fetch('https://business-server.bitem.in/owner/login', {
+        // const response = await fetch('http://localhost:8000/owner/login', {
             method:"POST",
             headers: { 'Content-Type':'application/json' },
             body: JSON.stringify(owner)

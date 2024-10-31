@@ -4,7 +4,7 @@ import React,{useState, useRef} from 'react'
 
 const createOwner = async (owner) => {
     const response = await fetch('https://business-server.vercel.app/owner/create', {
-    // const response = await fetch('https://localhost:8000/owner/create', {
+    // const response = await fetch('http://localhost:8000/owner/create', {
         method: "POST",
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify(owner)
