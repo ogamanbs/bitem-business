@@ -1,14 +1,14 @@
 import React,{useState, useEffect} from 'react';
-import OwnerHead from '../Components/CreateProducts/OwnerHead';
-import Menu from '../Components/CreateProducts/Menu';
-import CreateProductForm from '../Components/CreateProducts/CreateProductForm';
-import Logout from '../Components/Logout';
-import Notification from '../Components/Notification';
+import OwnerHead from '../../Components/OwnerHead';
+import Menu from '../../Components/Menu';
+import CreateProductForm from '../../Components/CreateProducts/CreateProductForm';
+import Logout from '../../Components/Logout';
+import Notification from '../../Components/Notification';
 import { AnimatePresence } from 'framer-motion';
-import PreLoader from '../Components/PreLoader';
-import MenuSmall from '../Components/CreateProducts/MenuSmall';
+import PreLoader from '../../Components/PreLoader';
+import MenuSmall from '../../Components/MenuSmall';
 
-export default function CreateProductsPage({owner, setOwner, setProducts}) {
+export default function CreateProductsPage({owner, setOwner}) {
   const [load, setLoad] = useState(100);
   const [vis, setVis] = useState('hidden');
   const [messages, setMessages] = useState([]);
@@ -32,7 +32,7 @@ export default function CreateProductsPage({owner, setOwner, setProducts}) {
         </div>
         <div className="h-[7vh] flex items-center justify-between px-5 md:px-10 md:justify-between border-b border-zinc-200 md:border-0">
             <OwnerHead />
-            <Logout setProducts={setProducts} setOwner={setOwner} />
+            <Logout setOwner={setOwner} />
         </div>
         <div className="h-full md:h-[93vh] flex flex-col md:flex-row w-full">
             <div className="flex flex-col gap-1 w-72 fixed top-2 right-2 z-50 pointer-events-non mt-[7vh]">

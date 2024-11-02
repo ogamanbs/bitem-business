@@ -1,17 +1,18 @@
-import { RiAddLine } from '@remixicon/react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function CreateSmallSection() {
+export default function ProfileSmallSection({owner}) {
     const navigate = useNavigate();
     const handleClick = () => {
-        navigate('/create-products');
+        navigate('/');
     }
     return (
         <div className="">
             <button onClick={handleClick}>
-                <div className="text-blue-500"><RiAddLine size={30} /></div>
+                <div className="h-10 w-10 bg-zinc-200 rounded-full overflow-hidden">
+                    <img src={owner.image} alt={owner.name} />
+                </div>
             </button>
         </div>
-    );
+    )
 }

@@ -1,17 +1,16 @@
+import { RiBox3Line } from '@remixicon/react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function ProfileSmallSection({owner}) {
+export default function AllProdSmallSection() {
     const navigate = useNavigate();
     const handleClick = () => {
-        navigate('/');
+        navigate('/products');
     }
     return (
         <div className="">
             <button onClick={handleClick}>
-                <div className="h-10 w-10 bg-zinc-200 rounded-full overflow-hidden">
-                    <img src={owner.image} alt={owner.profile} />
-                </div>
+                <div className="text-blue-500"><RiBox3Line size={30} /></div>
             </button>
         </div>
     )

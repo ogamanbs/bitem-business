@@ -1,13 +1,13 @@
 'use client'
 import React,{useState, useEffect} from 'react'
-import LoginCard from '../Components/Login/LoginCard';
-import CreateAccountCard from '../Components/CreateAccount/CreateAccountCard';
-import PreLoader from '../Components/PreLoader';
-import Notification from '../Components/Notification';
+import LoginCard from '../../Components/Login/LoginCard';
+import CreateAccountCard from '../../Components/CreateAccount/CreateAccountCard';
+import PreLoader from '../../Components/PreLoader';
+import Notification from '../../Components/Notification';
 import { AnimatePresence } from 'framer-motion';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import OwnerHead from '../Components/CreateProducts/OwnerHead';
+import OwnerHead from '../../Components/OwnerHead';
 
 
 export default function Sign({setProducts, setOwner}) {

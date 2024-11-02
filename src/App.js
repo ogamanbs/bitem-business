@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, Navigate} from 'react-router-dom';
-import HomePage from './HomePage/HomePage';
-import CreateProductsPage from './CreateProductsPage/CreateProductsPage';
-import Sign from './SignPage/Sign';
-import AllProductsPage from './AllProductsPage/AllProductsPage';
+import HomePage from './Pages/HomePage/HomePage';
+import CreateProductsPage from './Pages/CreateProductsPage/CreateProductsPage';
+import Sign from './Pages/SignPage/Sign';
+import AllProductsPage from './Pages/AllProductsPage/AllProductsPage';
 import { useCookies } from 'react-cookie';
+import OrdersPage from './Pages/OrdersPage/OrdersPage';
 
 const getOwner = async (token) => {
     const response = await fetch('https://business-server.bitem.in/owner/get-owner', {
@@ -22,43 +23,21 @@ const getOwner = async (token) => {
     }
 }
 
-const isProductAdded = (data) => {
-    let prevData = localStorage.getItem('owner');
-    prevData = JSON.parse(prevData);
-    if(data.products.length !== prevData.products.length) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 export default function App() {
-    const [owner, setOwner] = useState(() => {
-        const savedOwner = localStorage.getItem('owner');
-        return savedOwner === null ? null : JSON.parse(savedOwner);
-    });
-    const [products, setProducts] = useState(() => {
-        return owner !== null ? owner.products : [];
-    });
+    const [owner, setOwner] = useState({});
     const [cookies] = useCookies(['token']);
 
     useEffect(()=>{
         const callAPI = async () => {
             const data = await getOwner(cookies.token);
             if(data.owner) {
-                if(isProductAdded(data.owner)) {
-                    setOwner(data.owner);
-                    setProducts(data.owner.products);
-                    localStorage.setItem('owner', JSON.stringify(data.owner));
-                }
+                setOwner(data.owner);
             }
         }
         if(cookies.token) {
             callAPI();
         } else if(!cookies.token) {
-            setOwner(null);
-            setProducts([]);
-            localStorage.setItem('owner', JSON.stringify(null));
+            setOwner({});
         }
     },[cookies]);
 
@@ -67,19 +46,23 @@ export default function App() {
             <Routes>
                 <Route
                     path={'/'}
-                    element={ cookies.token ? <HomePage owner={owner} products={products} setProducts={setProducts} setOwner={setOwner} /> : <Navigate to={'/sign'} replace />}
+                    element={ cookies.token ? <HomePage owner={owner} setOwner={setOwner} /> : <Navigate to={'/sign'} replace />}
                 />
                 <Route
-                    path={'/create-products'}
-                    element={ cookies.token ? <CreateProductsPage owner={owner} setProducts={setProducts} setOwner={setOwner} /> : <Navigate to={'/sign'} replace />}
+                    path={'/create'}
+                    element={ cookies.token ? <CreateProductsPage owner={owner} setOwner={setOwner} /> : <Navigate to={'/sign'} replace />}
                 />
                 <Route
                     path={'/sign'}
-                    element={ <Sign setProducts={setProducts} setOwner={setOwner} /> }
+                    element={ <Sign setOwner={setOwner} /> }
                 />
                 <Route
-                    path={'/all-products'}
-                    element={ cookies.token ? <AllProductsPage owner={owner} products={products} setProducts={setProducts} setOwner={setOwner} /> : <Navigate to={'/sign'} replace />}
+                    path={'/products'}
+                    element={ cookies.token ? <AllProductsPage owner={owner} setOwner={setOwner} /> : <Navigate to={'/sign'} replace />}
+                />
+                <Route
+                    path={'/orders'}
+                    element={ cookies.token ? <OrdersPage owner={owner} setOwner={setOwner} /> : <Navigate to={'/sign'} replace />}
                 />
             </Routes>
         </div>

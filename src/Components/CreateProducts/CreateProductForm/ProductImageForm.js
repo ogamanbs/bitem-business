@@ -66,8 +66,9 @@ export default function ProductImageForm({images, setImages, numberOfImages}) {
             <div className="flex flex-col md:flex-row gap-5 items-center">
                 <div className="flex gap-5 flex-wrap justify-center md:justify-start">
                     {
-                    images.length < 1 ? (<div id={"input-box-1"} className="relative h-32 w-32 rounded-[10px] border border-dashed border-zinc-400 bg-zinc-100 overflow-hidden cursor-pointer">
-                        <div className="absolute h-32 w-32 flex flex-col items-center justify-center text-xs">
+                    images.length < 1 ? (
+                    <div id={"input-box-1"} className="relative h-32 w-32 rounded-[10px] border border-dashed border-zinc-400 bg-zinc-100 overflow-hidden cursor-pointer">
+                        <div className="absolute h-32 w-32 flex flex-col items-center justify-center text-xs p-1">
                             <h1 className="text-center">Drag and Drop an image here</h1>
                             <h1 className="text-center">or</h1>
                             <h1 className="text-center">Click to select an image</h1>
@@ -85,8 +86,9 @@ export default function ProductImageForm({images, setImages, numberOfImages}) {
                     )
                     }
                     {
-                    images.length < 2 ? (<div id={"input-box-2"} className="relative h-32 w-32 rounded-[10px] border border-dashed border-zinc-400 bg-zinc-100 overflow-hidden cursor-pointer hidden">
-                        <div className="absolute h-32 w-32 flex flex-col items-center justify-center text-xs">
+                    images.length < 2 ? (
+                    <div id={"input-box-2"} className="relative h-32 w-32 rounded-[10px] border border-dashed border-zinc-400 bg-zinc-100 overflow-hidden cursor-pointer hidden">
+                        <div className="absolute h-32 w-32 flex flex-col items-center justify-center text-xs p-1">
                             <h1 className="text-center">Drag and Drop an image here</h1>
                             <h1 className="text-center">or</h1>
                             <h1 className="text-center">Click to select an image</h1>
@@ -104,8 +106,9 @@ export default function ProductImageForm({images, setImages, numberOfImages}) {
                     )
                     }
                     {
-                    images.length < 3 ? (<div id={"input-box-3"} className="relative h-32 w-32 rounded-[10px] border border-dashed border-zinc-400 bg-zinc-100 overflow-hidden cursor-pointer hidden">
-                        <div className="absolute h-32 w-32 flex flex-col items-center justify-center text-xs">
+                    images.length < 3 ? (
+                    <div id={"input-box-3"} className="relative h-32 w-32 rounded-[10px] border border-dashed border-zinc-400 bg-zinc-100 overflow-hidden cursor-pointer hidden">
+                        <div className="absolute h-32 w-32 flex flex-col items-center justify-center text-xs p-1">
                             <h1 className="text-center">Drag and Drop an image here</h1>
                             <h1 className="text-center">or</h1>
                             <h1 className="text-center">Click to select an image</h1>
@@ -123,8 +126,9 @@ export default function ProductImageForm({images, setImages, numberOfImages}) {
                     )
                     }
                     {
-                    images.length < 4 ? (<div id={"input-box-4"} className="relative h-32 w-32 rounded-[10px] border border-dashed border-zinc-400 bg-zinc-100 overflow-hidden cursor-pointer hidden">
-                        <div className="absolute h-32 w-32 flex flex-col items-center justify-center text-xs">
+                    images.length < 4 ? (
+                    <div id={"input-box-4"} className="relative h-32 w-32 rounded-[10px] border border-dashed border-zinc-400 bg-zinc-100 overflow-hidden cursor-pointer hidden">
+                        <div className="absolute h-32 w-32 flex flex-col items-center justify-center text-xs p-1">
                             <h1 className="text-center">Drag and Drop an image here</h1>
                             <h1 className="text-center">or</h1>
                             <h1 className="text-center">Click to select an image</h1>

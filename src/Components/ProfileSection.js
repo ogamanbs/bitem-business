@@ -1,16 +1,15 @@
-import { RiBox3Line } from '@remixicon/react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function AllProdSmallSection() {
+export default function ProfileSection() {
     const navigate = useNavigate();
     const handleClick = () => {
-        navigate('/all-products');
+        navigate('/');
     }
     return (
-        <div className="">
+        <div className="flex items-center">
             <button onClick={handleClick}>
-                <div className="text-blue-500"><RiBox3Line size={30} /></div>
+                <h1 className="cursor-pointer px-5 p-1 hover:bg-zinc-100 rounded-lg transition linear delay-100">Profile</h1>
             </button>
         </div>
     )

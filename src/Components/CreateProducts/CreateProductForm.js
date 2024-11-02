@@ -62,15 +62,8 @@ export default function CreateProductForm({messages, setMessages, setLoad}) {
             setLoad(100);
             setMessages([...messages, data.message]);
         } else {
-            formRef.current.reset();
             setLoad(100);
             setMessages([...messages, "empty fields not allowed"]);
-            setName("");
-            setImages([]);
-            setDescription("");
-            setFeatures([]);
-            setPrice("");
-            setDiscount("");
         }
     }
 

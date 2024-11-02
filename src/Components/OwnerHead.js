@@ -1,5 +1,5 @@
 import React from 'react';
-import LogoImage from '../LogoImage';
+import LogoImage from './LogoImage';
 
 export default function OwnerHead() {
   return (

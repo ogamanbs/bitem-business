@@ -1,9 +1,9 @@
 'use client'
 import { RiEye2Line, RiEyeCloseLine } from '@remixicon/react';
-import React,{useState, useRef} from 'react'
+import React,{useState, useRef} from 'react';
 
 const createOwner = async (owner) => {
-    const response = await fetch('https://business-server.vercel.app/owner/create', {
+    const response = await fetch('https://business-server.bitem.in/owner/create', {
     // const response = await fetch('http://localhost:8000/owner/create', {
         method: "POST",
         headers: {'Content-Type':'application/json'},

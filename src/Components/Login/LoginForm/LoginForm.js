@@ -24,7 +24,7 @@ const login = async (owner) => {
     }
 }
 
-export default function LoginForm({setForm, setLoad, messages, setMessages, setOwner, setProducts}) {
+export default function LoginForm({setForm, setLoad, messages, setMessages, setOwner}) {
     const [show, setShow] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -46,9 +46,7 @@ export default function LoginForm({setForm, setLoad, messages, setMessages, setO
             setMessages([...messages, data.message]);
             if(data.message === 'successfully verified owner'){
                 setCookie('token', data.owner._id, {path: '/', expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)});
-                setProducts(data.owner.products);
                 setOwner(data.owner);
-                localStorage.setItem('owner', JSON.stringify(data.owner));
                 navigate('/');
             }
         } else {
