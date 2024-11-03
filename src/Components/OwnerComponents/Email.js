@@ -26,6 +26,7 @@ export default function Email({owner, setOwner}) {
     const [email, setEmail] = useState("");
     const [isEditable, SetIsEditable] = useState(false);
     const [cookies] = useCookies(['token']);
+    const [isUpdating, setIsUpdating] = useState(false);
 
     const handleEditClick = (e) => {
         e.preventDefault();
@@ -40,10 +41,12 @@ export default function Email({owner, setOwner}) {
     const handleUpdateClick = async (e) => {
         e.preventDefault();
         if(email !== "" && email !== owner.email) {
+            setIsUpdating(true);
             const data = await getUpdatedOwner(cookies.token, email);
             if(data.owner) {
                 setOwner(data.owner);
                 setEmail("");
+                setIsUpdating(false);
                 SetIsEditable(false);
             }
         } else {
@@ -64,12 +67,12 @@ export default function Email({owner, setOwner}) {
                 />
                 {!isEditable ? (
                     <div className="flex">
-                        <div onClick={handleEditClick} className="px-5 py-2 bg-blue-500 text-white font-medium text-sm rounded-lg cursor-pointer">Edit</div>
+                        <button onClick={handleEditClick} className="px-5 py-2 bg-blue-500 text-white font-medium text-sm rounded-lg cursor-pointer">Edit</button>
                     </div>
                 ):(
                     <div className="flex gap-3">
-                        <div onClick={handleUpdateClick} className="px-5 py-2 bg-blue-500 text-white font-medium text-sm rounded-lg cursor-pointer">Update</div>
-                        <div onClick={handleCancelClick} className="px-5 py-2 bg-red-500 text-white font-medium text-sm rounded-lg cursor-pointer">Cancel</div>
+                        <button onClick={handleUpdateClick} className="px-5 py-2 bg-blue-500 text-white font-medium text-sm rounded-lg cursor-pointer" disabled={isUpdating}>Update</button>
+                        <button onClick={handleCancelClick} className="px-5 py-2 bg-red-500 text-white font-medium text-sm rounded-lg cursor-pointer" disabled={isUpdating}>Cancel</button>
                     </div>
                 )}
             </div>

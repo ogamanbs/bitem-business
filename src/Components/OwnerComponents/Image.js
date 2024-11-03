@@ -1,6 +1,8 @@
 import { RiCloseLine } from '@remixicon/react';
 import React,{useState} from 'react';
 import {useCookies} from 'react-cookie';
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
 
 const getUpdatedOwner = async (id, image) => {
     try {
@@ -27,6 +29,7 @@ export default function Image({owner, setOwner}) {
     const [isEditable, setIsEditable] = useState(false);
     const [image, setImage] = useState("");
     const [cookies] = useCookies(['token']);
+    const [isUpdating, setIsUpdating] = useState(false);
 
     const handleImageOnChange = (e) => {
         const file = e.target.files[0];
@@ -45,10 +48,12 @@ export default function Image({owner, setOwner}) {
     const handleUpdateClick = async (e) => {
         e.preventDefault();
         if(image !==  "") {
+            setIsUpdating(true);
             const data = await getUpdatedOwner(cookies.token, image);
             if(data.owner) {
                 setOwner(data.owner);
                 setImage("");
+                setIsUpdating(false);
                 setIsEditable(false);
             }
         } else {
@@ -62,7 +67,8 @@ export default function Image({owner, setOwner}) {
     }
     return (
         <div className="h-auto w-auto flex flex-col gap-2 items-center">
-            {isEditable ? ( image === "" ? (<div className="relative h-32 w-32 rounded-[10px] border border-dashed border-zinc-400 bg-zinc-100 overflow-hidden cursor-pointer">
+            {isEditable ? ( image === "" ? (
+                    <div className="relative h-32 w-32 rounded-[10px] border border-dashed border-zinc-400 bg-zinc-100 overflow-hidden cursor-pointer">
                         <div className="absolute h-32 w-32 flex flex-col items-center justify-center text-xs p-1">
                             <h1 className="text-center">Drag and Drop an image here</h1>
                             <h1 className="text-center">or</h1>
@@ -74,20 +80,28 @@ export default function Image({owner, setOwner}) {
                             onChange={handleImageOnChange}
                             className="absolute opacity-0 h-32 w-32 display-none rounded-lg outline-none bg-transparent cursor-pointer"
                         />
-                    </div>):(<div className="h-32 w-32 rounded-[10px] bg-zinc-100 overflow-hidden">
+                    </div>
+                    ) : (!isUpdating ? (
+                        <div className="h-32 w-32 rounded-[10px] bg-zinc-100 overflow-hidden">
                             <img className="w-full h-full object-cover" src={image} alt={owner.name} />
-                        </div>)
-                    ) : (
+                        </div>
+                        ) : (
+                        <div className="h-32 w-32 rounded-[10px] bg-zinc-100 overflow-hidden">
+                            <Stack>
+                                <Skeleton variant="rounded" height={128} width={128} className="rounded-[10px]" />
+                            </Stack>
+                        </div>
+                    ))) : (
                         <div className="h-32 w-32 rounded-[10px] bg-zinc-100 overflow-hidden">
                             <img className="w-full h-full object-cover" src={owner.image} alt={owner.name} />
                         </div>
                     )
             }
-            {!isEditable ? (<div onClick={handleEditClick} className="w-32 md:w-full h-auto bg-blue-500 rounded-lg px-5 py-2 text-center text-white font-medium text-sm cursor-pointer">Edit</div>
+            {!isEditable ? (<button onClick={handleEditClick} className="w-32 md:w-full h-auto bg-blue-500 rounded-lg px-5 py-2 text-center text-white font-medium text-sm cursor-pointer">Edit</button>
             ) : (
                 <div className="w-32 md:w-full h-auto flex items-center gap-2">
-                    <div onClick={handleUpdateClick} className="w-full bg-blue-500 rounded-lg px-5 py-2 text-center text-white font-medium text-sm cursor-pointer">Update</div>
-                    <div onClick={handleCancelClick} className="p-1 bg-red-100 text-red-500 flex items-center justify-center cursor-pointer rounded-lg"><RiCloseLine size={20}/></div>
+                    <button onClick={handleUpdateClick} className="w-full bg-blue-500 rounded-lg px-5 py-2 text-center text-white font-medium text-sm cursor-pointer" disabled={isUpdating}>Update</button>
+                    <button onClick={handleCancelClick} className="p-1 bg-red-100 text-red-500 flex items-center justify-center cursor-pointer rounded-lg" disabled={isUpdating}><RiCloseLine size={20}/></button>
                 </div>
             )}
         </div>

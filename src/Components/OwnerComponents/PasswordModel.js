@@ -29,6 +29,7 @@ export default function PasswordModel({setOwner, handleCloseModelClick, setShowM
     const [cookies] = useCookies(['token']);
     const [isSame, setIsSame] = useState();
     const [check, setCheck] = useState();
+    const [isUpdating, setIsUpdating] = useState(false);
 
     const handleConfirmChange = (e) => {
         if(e.target.value === newp) {
@@ -41,14 +42,18 @@ export default function PasswordModel({setOwner, handleCloseModelClick, setShowM
     const handleSubmit = async (e) => {
         e.preventDefault();
         if(oldp !== "" && oldp !== newp) {
+            setIsUpdating(true);
             const data = await getUpdatedOwner(oldp, newp, cookies.token);
             if(data.owner) {
                 setOwner(data.owner);
                 setOldp("");
                 setnewp("");
                 setIsSame();
+                setIsUpdating(false);
                 setShowModel(false);
             }
+        } else {
+            setShowModel(false);
         }
     }
 
@@ -108,7 +113,7 @@ export default function PasswordModel({setOwner, handleCloseModelClick, setShowM
                     </div>
                 </div>
                 <div className="flex justify-center my-10">
-                    <div onClick={handleSubmit} className="px-5 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium cursor-pointer">Submit</div>
+                    <button onClick={handleSubmit} className="px-5 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium cursor-pointer" disabled={isUpdating}>Submit</button>
                 </div>
             </div>
         </div>
