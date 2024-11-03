@@ -24,28 +24,30 @@ const getUpdatedOwner = async (id, name) => {
 
 export default function Name({owner, setOwner}) {
     const [name, setName] = useState("");
-    const [isEditable, SetIsEditable] = useState(false);
+    const [isEditable, setIsEditable] = useState(false);
     const [cookies] = useCookies(['token']);
 
     const handleEditClick = (e) => {
         e.preventDefault();
         setName(owner.name);
-        SetIsEditable(true);
+        setIsEditable(true);
     }
     const handleCancelClick = (e) => {
         e.preventDefault();
         setName("");
-        SetIsEditable(false);
+        setIsEditable(false);
     }
     const handleUpdateClick = async (e) => {
         e.preventDefault();
-        if(owner.name !== name) {
+        if(name !== "" && owner.name !== name) {
             const data = await getUpdatedOwner(cookies.token, name);
             if(data.owner !== null) {
                 setOwner(data.owner);
                 setName("");
-                SetIsEditable(false);
+                setIsEditable(false);
             }
+        } else {
+            setIsEditable(false);
         }
     }
     return (

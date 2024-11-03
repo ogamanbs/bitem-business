@@ -40,7 +40,7 @@ export default function PasswordModel({setOwner, handleCloseModelClick, setShowM
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(oldp !== newp) {
+        if(oldp !== "" && oldp !== newp) {
             const data = await getUpdatedOwner(oldp, newp, cookies.token);
             if(data.owner) {
                 setOwner(data.owner);

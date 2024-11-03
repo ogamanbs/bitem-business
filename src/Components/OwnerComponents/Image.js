@@ -4,7 +4,7 @@ import {useCookies} from 'react-cookie';
 
 const getUpdatedOwner = async (id, image) => {
     try {
-        const response = await fetch('https://business-server.bitem.in0/owner/update/image', {
+        const response = await fetch('https://business-server.bitem.in/owner/update/image', {
         // const response = await fetch('http://localhost:8000/owner/update/image', {
             method: "POST",
             headers: {'Content-Type':'application/json'},
@@ -44,10 +44,14 @@ export default function Image({owner, setOwner}) {
     }
     const handleUpdateClick = async (e) => {
         e.preventDefault();
-        const data = await getUpdatedOwner(cookies.token, image);
-        if(data.owner) {
-            setOwner(data.owner);
-            setImage("");
+        if(image !==  "") {
+            const data = await getUpdatedOwner(cookies.token, image);
+            if(data.owner) {
+                setOwner(data.owner);
+                setImage("");
+                setIsEditable(false);
+            }
+        } else {
             setIsEditable(false);
         }
     }

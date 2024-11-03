@@ -39,10 +39,14 @@ export default function Email({owner, setOwner}) {
     }
     const handleUpdateClick = async (e) => {
         e.preventDefault();
-        const data = await getUpdatedOwner(cookies.token, email);
-        if(data.owner) {
-            setOwner(data.owner);
-            setEmail("");
+        if(email !== "" && email !== owner.email) {
+            const data = await getUpdatedOwner(cookies.token, email);
+            if(data.owner) {
+                setOwner(data.owner);
+                setEmail("");
+                SetIsEditable(false);
+            }
+        } else {
             SetIsEditable(false);
         }
     }

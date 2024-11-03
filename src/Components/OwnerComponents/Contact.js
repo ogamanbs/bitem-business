@@ -41,10 +41,14 @@ export default function Contact({owner, setOwner}) {
     }
     const handleUpdateClick = async (e) => {
         e.preventDefault();
-        const data = await getUpdatedOwner(cookies.token, contact);
-        if(data.owner) {
-            setOwner(data.owner);
-            setContact(undefined);
+        if(contact !== undefined) {
+            const data = await getUpdatedOwner(cookies.token, contact);
+            if(data.owner) {
+                setOwner(data.owner);
+                setContact(undefined);
+                setIsEditable(false);
+            }
+        } else {
             setIsEditable(false);
         }
     }
